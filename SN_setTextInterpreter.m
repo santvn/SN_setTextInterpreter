@@ -29,16 +29,11 @@ end
 if ~exist('interpreter','var')
     interpreter = get(0,'DefaultTextInterpreter');
 end
-global IIII;
-IIII = 0;
 setInterpreter(obj,interpreter);
-disp(IIII);
 end
 
 % recursively set all objects under ax
 function setInterpreter(ax,interpreter)
-    global IIII;
-    IIII = IIII + 1;
     if isempty(ax)
         return;
     end
@@ -79,28 +74,6 @@ function setInterpreter(ax,interpreter)
         if strncmpi(prop{i},'current',7);
             continue;
         end
-        
-%         % just to make the script faster by not checking the camera
-%         % property
-%         if strncmpi(prop{i},'camera',6);
-%             continue;
-%         end
-%         
-%         if numel(prop{i}) >2
-%             if strcmpi(prop{i}(end-2:end),'fcn');
-%                 continue;
-%             end
-%         end
-%         
-%         if numel(prop{i}) >3
-%             if strcmpi(prop{i}(end-3:end),'mode');
-%                 continue;
-%             end
-% 
-%             if strcmpi(prop{i}(end-3:end),'data');
-%                 continue;
-%             end
-%         end
         
         propDetails = get(ax,prop{i});
         if iscell(propDetails)
