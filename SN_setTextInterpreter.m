@@ -62,6 +62,12 @@ function setInterpreter(ax,interpreter)
     if isprop(ax,'TickLabelInterpreter')
         set(ax,'TickLabelInterpreter',interpreter)
     end
+    if isprop(ax,'type')
+        type = get(ax,'type');
+        if strncmpi(type(end-3:end),'menu',4);
+            return;
+        end
+    end
     % go through all properties to get the children text to set interpreter
     for i = 1:numel(prop)
         % advoiding an infinite recursion
@@ -69,9 +75,21 @@ function setInterpreter(ax,interpreter)
             continue;
         end
         
+        if strcmpi(prop{i},'FigureHandle');
+            continue;
+        end
+        
+        if strcmpi(prop{i},'WindowButtonDownFcn');
+            continue;
+        end
+        
         % advoiding an infinite recursion of refering to the same object
         % again and again
         if strncmpi(prop{i},'current',7);
+            continue;
+        end
+        
+        if strncmpi(prop{i}(end-2:end),'fcn',3);
             continue;
         end
         
